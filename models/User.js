@@ -1,7 +1,7 @@
 // require mongoose ODM
 const mongoose = require('mongoose')
 
-const InProgressGoals = new mongoose.Schema({
+const GoalSchema = new mongoose.Schema({
   content: {
     type: String
   },
@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String
   },
-  inProgressGoals: [InProgressGoals]
+  goals: [GoalSchema]
 }, {
   timestamps: true
 })
