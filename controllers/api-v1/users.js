@@ -14,14 +14,7 @@ router.get('/', authLockedRoute, async (req, res) => {
               _id: res.locals.user._id
           })
   
-          const newGoal = {
-              content: req.body.content
-          }
-  
-          oneUser.goals.push(newGoal)
           res.json(oneUser)
-  
-          await oneUser.save()
   
       } catch(err) {
       console.log(err)
@@ -29,18 +22,20 @@ router.get('/', authLockedRoute, async (req, res) => {
   }
 })
 
+// PUT /users/edit - udpate user profile
 router.put('/edit', authLockedRoute, async (req, res) => {
   try {
     // console.log(res.locals.user)
-          const oneUser = await db.User.findOne({
+          const oneUser = await db.User.findByIdAndUpdate({
               _id: res.locals.user._id
+          }, {
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password
+          }, {
+            new: true
           })
-  
-  
-          oneUser.goals.push(newGoal)
-          res.json(oneUser)
-  
-          await oneUser.save()
+          return res.status(200).json({oneUser})
   
       } catch(err) {
       console.log(err)
@@ -126,10 +121,16 @@ router.post('/login', async (req, res) => {
   }
 })
 
+// GET /users/goals --  display all user goals
 router.get("/goals", authLockedRoute, async (req, res) => {
   try {
     // res.json('hi')
-    res.json(res.locals.user)
+    const oneUser = await db.User.findOne({
+      _id: res.locals.user._id
+  })
+  // return oneUser
+    res.json(oneUser)
+
   }  catch(err) {
       console.log(err)
       return res.status(500).json({error: "Server Error"})        
@@ -144,13 +145,74 @@ router.post("/goals", authLockedRoute, async(req,res) => {
           })
   
           const newGoal = {
-              content: req.body.content
+              content: req.body.content,
+              img_url: req.body.img_url,
+              completed: false
           }
   
           oneUser.goals.push(newGoal)
           res.json(oneUser)
   
           await oneUser.save()
+  
+      } catch(err) {
+      console.log(err)
+      return res.status(500).json({error: "Server Error"})        
+  }
+})
+
+router.put("/goals/:goalId", authLockedRoute, async(req,res) => {
+  try {
+    const oneGoal = await db.User.findOneAndUpdate({
+          _id: res.locals.user._id, "goals._id": req.params.goalId
+      }, { $set: {
+        "goals.$.content": req.body.content,
+        "goals.$.img_url": req.body.img_url,
+      }
+      }, {
+        new: true
+      })
+  
+          res.json(oneGoal)
+  
+      } catch(err) {
+      console.log(err)
+      return res.status(500).json({error: "Server Error"})        
+  }
+})
+
+router.put("/goals/:goalId/status", authLockedRoute, async(req,res) => {
+  try {
+    const oneGoal = await db.User.findOneAndUpdate({
+          _id: res.locals.user._id, "goals._id": req.params.goalId
+      }, { $set: {
+        "goals.$.completed": req.body.completed
+      }
+      }, {
+        new: true
+      })
+  
+          res.json(oneGoal)
+  
+      } catch(err) {
+      console.log(err)
+      return res.status(500).json({error: "Server Error"})        
+  }
+})
+
+router.put("/goals", authLockedRoute, async(req,res) => {
+  try {
+    // console.log(res.locals.user)
+          const oneUser = await db.User.findOneAndUpdate({
+              _id: res.locals.user._id
+          },{
+            content: req.body.content,
+            img_url: req.body.img_url
+          },{
+            new:true
+          })
+  
+          res.json(oneUser)
   
       } catch(err) {
       console.log(err)
