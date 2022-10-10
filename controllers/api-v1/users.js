@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const authLockedRoute = require('./authLockedRoute')
 
+  
 
 // GET /users - test endpoint
 router.get('/', (req, res) => {
@@ -88,6 +89,37 @@ router.post('/login', async (req, res) => {
   }
 })
 
+router.get("/goals", authLockedRoute, async (req, res) => {
+  try {
+    // res.json('hi')
+    res.json(res.locals.user)
+  }  catch(err) {
+      console.log(err)
+      return res.status(500).json({error: "Server Error"})        
+  }
+})
+
+router.post("/goals", authLockedRoute, async(req,res) => {
+  try {
+    // console.log(res.locals.user)
+          const oneUser = await db.User.findOne({
+              _id: res.locals.user._id
+          })
+  
+          const newGoal = {
+              content: req.body.content
+          }
+  
+          oneUser.goals.push(newGoal)
+          res.json(oneUser)
+  
+          await oneUser.save()
+  
+      } catch(err) {
+      console.log(err)
+      return res.status(500).json({error: "Server Error"})        
+  }
+})
 
 // GET /auth-locked - will redirect if bad jwt token is found
 router.get('/auth-locked', authLockedRoute, (req, res) => {

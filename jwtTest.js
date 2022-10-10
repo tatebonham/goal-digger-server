@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const db = require('./models')
 
 const jwtTest = ()=>{
     try{
@@ -17,4 +18,25 @@ const jwtTest = ()=>{
         console.log(err)
     }
 }
-jwtTest()
+// jwtTest()
+
+const findUser = async () => {
+    try {
+        const oneUser = await db.User.findOne({
+            _id: '63432f7daf50cc10c710cf6f'
+        })
+
+        const newGoal = {
+            content: 'Hike Mount Everest'
+        }
+
+        oneUser.goals.push(newGoal)
+        console.log(newGoal)
+
+        await oneUser.save()
+
+    } catch(err) {
+        console.log(err)
+    }
+}
+findUser()
