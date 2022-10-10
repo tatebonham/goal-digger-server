@@ -7,8 +7,45 @@ const authLockedRoute = require('./authLockedRoute')
   
 
 // GET /users - test endpoint
-router.get('/', (req, res) => {
-  res.json({ msg: 'welcome to the users endpoint' })
+router.get('/', authLockedRoute, async (req, res) => {
+  try {
+    // console.log(res.locals.user)
+          const oneUser = await db.User.findOne({
+              _id: res.locals.user._id
+          })
+  
+          const newGoal = {
+              content: req.body.content
+          }
+  
+          oneUser.goals.push(newGoal)
+          res.json(oneUser)
+  
+          await oneUser.save()
+  
+      } catch(err) {
+      console.log(err)
+      return res.status(500).json({error: "Server Error"})        
+  }
+})
+
+router.put('/edit', authLockedRoute, async (req, res) => {
+  try {
+    // console.log(res.locals.user)
+          const oneUser = await db.User.findOne({
+              _id: res.locals.user._id
+          })
+  
+  
+          oneUser.goals.push(newGoal)
+          res.json(oneUser)
+  
+          await oneUser.save()
+  
+      } catch(err) {
+      console.log(err)
+      return res.status(500).json({error: "Server Error"})        
+  }
 })
 
 // POST /users/register - CREATE new user
