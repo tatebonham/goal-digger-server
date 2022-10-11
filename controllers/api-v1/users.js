@@ -77,7 +77,6 @@ router.post('/', async (req, res) => {
 
     // sign jwt and send back
     const token = await jwt.sign(payload, process.env.JWT_SECRET)
-
     res.json({ token })
   } catch (error) {
     console.log(error)
@@ -220,20 +219,20 @@ router.put("/goals/:goalId/status", authLockedRoute, async(req,res) => {
 
 router.get
 
-router.put("/goals", authLockedRoute, async(req,res) => {
+router.delete("/goals/:goalId", authLockedRoute, async(req,res) => {
   try {
     // console.log(res.locals.user)
-          const oneUser = await db.User.findOneAndUpdate({
+          const oneUser = await db.User.findOne({
               _id: res.locals.user._id
-          },{
-            content: req.body.content,
-            img_url: req.body.img_url
-          },{
-            new:true
-          })
+            }, {
+              new: true
+            })
+            res.locals.user.goals.remove(req.params.goalId)
+            await res.locals.user.save()
+
   
+
           res.json(oneUser)
-  
       } catch(err) {
       console.log(err)
       return res.status(500).json({error: "Server Error"})        
@@ -245,5 +244,8 @@ router.get('/auth-locked', authLockedRoute, (req, res) => {
   console.log(res.locals)
   res.json( { msg: 'welcome to the private route!' })
 })
+
+
+
 
 module.exports = router
