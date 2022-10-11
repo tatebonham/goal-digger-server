@@ -217,7 +217,6 @@ router.put("/goals/:goalId/status", authLockedRoute, async(req,res) => {
   }
 })
 
-router.get
 
 router.delete("/goals/:goalId", authLockedRoute, async(req,res) => {
   try {
@@ -229,8 +228,6 @@ router.delete("/goals/:goalId", authLockedRoute, async(req,res) => {
             })
             res.locals.user.goals.remove(req.params.goalId)
             await res.locals.user.save()
-
-  
 
           res.json(oneUser)
       } catch(err) {
