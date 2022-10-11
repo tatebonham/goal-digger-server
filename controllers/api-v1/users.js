@@ -216,10 +216,7 @@ router.put("/goals/:goalId/status", authLockedRoute, async(req,res) => {
   }
 })
 
-<<<<<<< HEAD
-=======
-// DELETE /goals/:goalId -- delete specific goal subdoc
->>>>>>> 5d7d354 (Added the get route for single goal back)
+
 router.delete("/goals/:goalId", authLockedRoute, async(req,res) => {
   try {
     // console.log(res.locals.user)
