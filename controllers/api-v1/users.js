@@ -162,6 +162,21 @@ router.post("/goals", authLockedRoute, async(req,res) => {
   }
 })
 
+// GET /users/goals/:goalId -- display a goal
+router.get("/goals/:goalId", authLockedRoute, async(req,res) => {
+  try {
+    const oneGoal = await db.User.findOne({
+          _id: res.locals.user._id, "goals._id": req.params.goalId
+      })
+  
+          res.json(oneGoal)
+  
+      } catch(err) {
+      console.log(err)
+      return res.status(500).json({error: "Server Error"})        
+  }
+})
+
 // PUT /users/goals/:goalId -- update a goal
 router.put("/goals/:goalId", authLockedRoute, async(req,res) => {
   try {
@@ -203,6 +218,7 @@ router.put("/goals/:goalId/status", authLockedRoute, async(req,res) => {
   }
 })
 
+router.get
 
 router.put("/goals", authLockedRoute, async(req,res) => {
   try {
