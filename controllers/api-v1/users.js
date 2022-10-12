@@ -25,17 +25,17 @@ router.get('/', authLockedRoute, async (req, res) => {
 // PUT /users/edit - udpate user profile
 router.put('/edit', authLockedRoute, async (req, res) => {
   try {
-    // console.log(res.locals.user)
+    console.log(req.body.name)
           const oneUser = await db.User.findByIdAndUpdate({
               _id: res.locals.user._id
           }, {
             name: req.body.name,
-            email: req.body.email,
-            password: req.body.password
+            email: req.body.email
           }, {
             new: true
           })
-          return res.status(200).json({oneUser})
+          
+          return res.status(200).json(oneUser)
   
       } catch(err) {
       console.log(err)
@@ -89,11 +89,13 @@ router.post('/', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     // try to find user in the db
+    console.log(req.body.email)
+    console.log(req.body.password)
     const foundUser = await db.User.findOne({
       email: req.body.email
     })
-
     const noLoginMessage = 'Incorrect username or password'
+    console.log(foundUser)
 
     // if the user is not found in the db, return and sent a status of 400 with a message
     if(!foundUser) return res.status(400).json({ msg: noLoginMessage })
@@ -165,6 +167,7 @@ router.post("/goals", authLockedRoute, async(req,res) => {
 // GET /users/goals/:goalId -- display a goal
 router.get("/goals/:goalId", authLockedRoute, async(req,res) => {
   try {
+    console.log(req.params.goalId)
     const oneGoal = await db.User.findOne({
           _id: res.locals.user._id, "goals._id": req.params.goalId
       })
