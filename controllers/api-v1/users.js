@@ -160,6 +160,21 @@ router.post("/goals", authLockedRoute, async(req,res) => {
   }
 })
 
+// GET /users/goals/:goalId -- display a goal
+router.get("/goals/:goalId", authLockedRoute, async(req,res) => {
+  try {
+    const oneGoal = await db.User.findOne({
+          _id: res.locals.user._id, "goals._id": req.params.goalId
+      })
+  
+          res.json(oneGoal)
+  
+      } catch(err) {
+      console.log(err)
+      return res.status(500).json({error: "Server Error"})        
+  }
+})
+
 // PUT /users/goals/:goalId -- update a goal
 router.put("/goals/:goalId", authLockedRoute, async(req,res) => {
   try {
@@ -201,6 +216,10 @@ router.put("/goals/:goalId/status", authLockedRoute, async(req,res) => {
   }
 })
 
+<<<<<<< HEAD
+=======
+// DELETE /goals/:goalId -- delete specific goal subdoc
+>>>>>>> 5d7d354 (Added the get route for single goal back)
 router.delete("/goals/:goalId", authLockedRoute, async(req,res) => {
   try {
     // console.log(res.locals.user)
