@@ -19,7 +19,7 @@ app.use(express.json())
 
 // API -- bucketlist api
 
-app.get('/bucketlist', async (req, res) =>{
+const apiTest = async () =>{
   try {
       const options = {
           headers: {
@@ -27,11 +27,13 @@ app.get('/bucketlist', async (req, res) =>{
           }
       }
       const response = await axios.get('https://api.api-ninjas.com/v1/bucketlist', options)
-      res.json(response.data)
+      console.log(response.data)
   }catch(err){
-    console.log(err)
+      console.log(err)
   }
-})
+}
+
+apiTest()
 
 // GET / -- test index route
 app.get('/', authLockedRoute, (req, res) => {
