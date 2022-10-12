@@ -34,8 +34,7 @@ router.put('/edit', authLockedRoute, async (req, res) => {
           }, {
             new: true
           })
-          
-          return res.status(200).json(oneUser)
+          return res.status(200).json({oneUser})
   
       } catch(err) {
       console.log(err)
@@ -89,13 +88,11 @@ router.post('/', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     // try to find user in the db
-    console.log(req.body.email)
-    console.log(req.body.password)
     const foundUser = await db.User.findOne({
       email: req.body.email
     })
+
     const noLoginMessage = 'Incorrect username or password'
-    console.log(foundUser)
 
     // if the user is not found in the db, return and sent a status of 400 with a message
     if(!foundUser) return res.status(400).json({ msg: noLoginMessage })
