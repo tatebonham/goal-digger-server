@@ -163,10 +163,6 @@ router.post("/goals", authLockedRoute, async(req,res) => {
 // GET /users/goals/:goalId -- display a goal
 router.get("/goals/:goalId", authLockedRoute, async(req,res) => {
   try {
-<<<<<<< HEAD
-    console.log(req.params.goalId)
-=======
->>>>>>> 5d7d354 (Added the get route for single goal back)
     const oneGoal = await db.User.findOne({
           _id: res.locals.user._id, "goals._id": req.params.goalId
       })
