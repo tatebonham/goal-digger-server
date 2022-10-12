@@ -145,7 +145,7 @@ router.post("/goals", authLockedRoute, async(req,res) => {
   
           const newGoal = {
               content: req.body.content,
-              img_url: req.body.img_url,
+              img_url: req.body.imageUrl,
               completed: false
           }
   
@@ -183,7 +183,7 @@ router.put("/goals/:goalId", authLockedRoute, async(req,res) => {
           _id: res.locals.user._id, "goals._id": req.params.goalId
       }, { $set: {
         "goals.$.content": req.body.content,
-        "goals.$.img_url": req.body.img_url
+        "goals.$.img_url": req.body.imageUrl
       }
       }, {
         new: true
