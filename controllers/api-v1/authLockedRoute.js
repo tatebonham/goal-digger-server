@@ -12,6 +12,7 @@ const authLockedRoute = async (req, res, next) => {
     const foundUser = await db.User.findById(decode.id)
     // mount user on locals
     res.locals.user = foundUser
+    console.log(foundUser)
     next()
 
   } catch(error) {

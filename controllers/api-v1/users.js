@@ -25,13 +25,12 @@ router.get('/', authLockedRoute, async (req, res) => {
 // PUT /users/edit - udpate user profile
 router.put('/edit', authLockedRoute, async (req, res) => {
   try {
-    // console.log(res.locals.user)
+    console.log(req.body.name)
           const oneUser = await db.User.findByIdAndUpdate({
               _id: res.locals.user._id
           }, {
             name: req.body.name,
-            email: req.body.email,
-            password: req.body.password
+            email: req.body.email
           }, {
             new: true
           })
@@ -146,7 +145,7 @@ router.post("/goals", authLockedRoute, async(req,res) => {
   
           const newGoal = {
               content: req.body.content,
-              img_url: req.body.img_url,
+              img_url: req.body.imageUrl,
               completed: false
           }
   
@@ -183,7 +182,7 @@ router.put("/goals/:goalId", authLockedRoute, async(req,res) => {
           _id: res.locals.user._id, "goals._id": req.params.goalId
       }, { $set: {
         "goals.$.content": req.body.content,
-        "goals.$.img_url": req.body.img_url
+        "goals.$.img_url": req.body.imageUrl
       }
       }, {
         new: true
