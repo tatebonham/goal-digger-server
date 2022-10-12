@@ -216,7 +216,11 @@ router.put("/goals/:goalId/status", authLockedRoute, async(req,res) => {
   }
 })
 
+<<<<<<< HEAD
 // DELETE /goals/:goalId -- delete specific goal subdoc
+=======
+
+>>>>>>> 5f1258a (Took out random router.get on line 220)
 router.delete("/goals/:goalId", authLockedRoute, async(req,res) => {
   try {
     // console.log(res.locals.user)
