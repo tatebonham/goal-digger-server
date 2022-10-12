@@ -1,5 +1,6 @@
 // require packages
 require('dotenv').config()
+const axios = require('axios')
 const express = require('express')
 const cors = require('cors')
 const rowdy = require('rowdy-logger')
@@ -16,8 +17,21 @@ app.use(cors())
 app.use(express.urlencoded({ extended: false })) // optional 
 app.use(express.json())
 
+// API -- bucketlist api
 
-
+app.get('/bucketlist', async (req, res) =>{
+  try {
+      const options = {
+          headers: {
+              'X-Api-Key': process.env.X_API_KEY
+          }
+      }
+      const response = await axios.get('https://api.api-ninjas.com/v1/bucketlist', options)
+      res.json(response.data)
+  }catch(err){
+    console.log(err)
+  }
+})
 
 // GET / -- test index route
 app.get('/', authLockedRoute, (req, res) => {
