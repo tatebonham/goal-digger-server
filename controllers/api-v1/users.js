@@ -216,7 +216,9 @@ router.put("/goals/:goalId/status", authLockedRoute, async(req,res) => {
   }
 })
 
+
 // DELETE /goals/:goalId -- delete specific goal subdoc
+
 router.delete("/goals/:goalId", authLockedRoute, async(req,res) => {
   try {
     // console.log(res.locals.user)
