@@ -185,6 +185,7 @@ router.put("/goals/:goalId", authLockedRoute, async(req,res) => {
         "goals.$.content": req.body.content,
         "goals.$.img_url": req.body.imageUrl,
         "goals.$.note": req.body.note,
+        "goals.$.completed": req.body.completed
       }
       }, {
         new: true
