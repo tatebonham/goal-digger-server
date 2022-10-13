@@ -10,6 +10,9 @@ const GoalSchema = new mongoose.Schema({
   },
   completed: {
     type: Boolean
+  }, 
+  note: {
+    type: String
   }
 }, {timestamps: true})
 
